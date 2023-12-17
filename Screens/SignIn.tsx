@@ -1,12 +1,31 @@
-import { Link } from '@react-navigation/native';
-import React from 'react';
+import { Link, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const SignIn = () => {
-
-
+    const navigation = useNavigation();
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const onsubmit = () => {
+        let formData = {
+            email: email,
+            password: password,
+            
+        };
+    
+        axios.post('http://192.168.1.6:8000/api/login', formData)
+            .then((response) => {
+                console.log(response.data);
+                navigation.navigate('Home');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+           
+    };
     return (
         <SafeAreaView style={style.container}>
             <View style={style.title}>
@@ -16,16 +35,16 @@ const SignIn = () => {
             <View style={{ marginTop: 50, marginBottom: 30 }}>
                 <View>
                     <Text style={{ fontWeight: '400', fontSize: 14, color: '#1f2029' }}>Email</Text>
-                    <TextInput placeholder='example@gmail.com' style={style.input}></TextInput>
+                    <TextInput placeholder='example@gmail.com' style={style.input} onChangeText={(value)=>setEmail(value)}></TextInput>
                 </View>
                 <View>
                     <Text style={{ marginTop: 20, fontWeight: '400', fontSize: 14, color: '#1f2029' }}>Password</Text>
-                    <TextInput placeholder='enterpassword' secureTextEntry={true} style={style.input}></TextInput>
+                    <TextInput placeholder='enterpassword' secureTextEntry={true} style={style.input} onChangeText={(value)=>setPassword(value)}></TextInput>
                 </View>
 
             </View>
-            <TouchableOpacity style={style.btn}>
-                <Text style={{ fontSize: 20, fontWeight: '400', color: '#EDEDED' }}>Sign In</Text>
+            <TouchableOpacity style={style.btn} onPress={onsubmit}>
+                <Text style={{ fontSize: 20, fontWeight: '400', color: '#EDEDED' }} >Sign In</Text>
             </TouchableOpacity>
             <View>
                 <Text style={{margin: 50, textAlign: 'center'}}> Or sign in with </Text>

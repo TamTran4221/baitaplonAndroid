@@ -1,23 +1,32 @@
-import { Link } from '@react-navigation/native';
+import { Link, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { TextInput, Text, View, TouchableOpacity, StyleSheet, SafeAreaView, Button } from 'react-native';
+import { TextInput, Text, View, TouchableOpacity, StyleSheet, SafeAreaView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 
 
 const SignUp = () => {
+    const navigation = useNavigation()
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const onsubmit=()=>{
-        let formData ={
-            _email: email,
-            _password: password,
-            _name: name
-        }
-        axios.post('http://127.0.0.1:8000/api/register')
-    }
-   
+    const onsubmit = () => {
+        let formData = {
+            email: email,
+            password: password,
+            name: name
+        };
+    
+        axios.post('http://192.168.1.6:8000/api/register', formData)
+            .then((response) => {
+                console.log(response.data);
+                navigation.navigate('SignIn');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+    
 
     return (
         <SafeAreaView style={style.container}>
@@ -40,7 +49,7 @@ const SignUp = () => {
                     
                 </View>
             </View>
-            <TouchableOpacity style={style.btn}>
+            <TouchableOpacity style={style.btn} onPress={onsubmit}>
                 <Text style={{ fontSize: 20, fontWeight: '400', color: '#EDEDED' }} >Sign Up</Text>
             </TouchableOpacity>
             <View>

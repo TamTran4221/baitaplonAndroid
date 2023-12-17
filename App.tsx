@@ -12,10 +12,11 @@ const App = () => {
   const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        {/* <Stack.Screen name='Home' component={Home}/> */}
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name='Home' component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   )
