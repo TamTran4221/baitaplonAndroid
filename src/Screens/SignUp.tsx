@@ -88,7 +88,6 @@ const style = StyleSheet.create({
         fontSize: 20,
         position: 'absolute',
         top: 65,
-
     },
     btn: {
         marginTop: 50,
